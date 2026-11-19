@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MicroBloom - Small Habits. Meaningful Change. Build better days with micro habits.">
+    <title>MicroBloom - Habit Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Welcome Screen -->
+    <div id="welcomeScreen" class="screen active">
+        <div class="welcome-container">
+            <div class="welcome-content">
+                <div class="welcome-header">
+                    <h1 class="welcome-title">MicroBloom <span class="seedling">🌱</span></h1>
+                    <p class="welcome-tagline">Small Habits. Meaningful Change.</p>
+                </div>
+                
+                <div class="welcome-illustration">
+                    <div class="leaf leaf-1"></div>
+                    <div class="leaf leaf-2"></div>
+                    <div class="leaf leaf-3"></div>
+                </div>
+                
+                <div class="welcome-message">
+                    <p class="welcome-subtitle">Build better days, one small habit at a time.</p>
+                </div>
+                
+                <div id="startButton" class="scroll-arrow" aria-label="Scroll to continue" role="button" tabindex="0">
+                    <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </div>
+                
+                <p class="welcome-privacy">
+                    No signup. No tracking. Just your progress.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Habit Selection Screen -->
+    <div id="habitSelectionScreen" class="screen">
+        <div class="selection-container">
+            <div class="selection-header">
+                <h2>Choose Your Microhabits</h2>
+                <p class="selection-subtitle">Start small. Pick what matters to you.</p>
+                <div class="selection-counter">
+                    <span id="selectedCount">0</span> selected
+                </div>
+            </div>
+
+            <div class="habits-grid" id="habitsGrid">
+                <!-- Habit cards will be inserted here -->
+            </div>
+
+            <div class="selection-actions">
+                <button id="startTrackingButton" class="btn btn-primary" disabled>
+                    Start Tracking
+                </button>
+                <p id="selectionError" class="error-message" style="display: none;">
+                    Please select at least one habit
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Dashboard Screen -->
+    <div id="dashboardScreen" class="screen">
+        <div class="dashboard-container">
+            <!-- Header -->
+            <header class="dashboard-header">
+                <div class="header-left">
+                    <h1 class="dashboard-title">MicroBloom</h1>
+                    <p class="current-date" id="currentDate"></p>
+                </div>
+                <div class="header-right">
+                    <p id="motivationalGreeting" class="greeting"></p>
+                </div>
+            </header>
+
+            <!-- Summary Section -->
+            <section class="summary-section">
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <div class="summary-label">Today's Completion</div>
+                        <div class="summary-value" id="completionPercentage">0%</div>
+                        <div class="summary-bar">
+                            <div class="summary-progress" id="summaryProgress"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-card">
+                        <div class="summary-label">Completed Today</div>
+                        <div class="summary-value" id="completedCount">0/0</div>
+                    </div>
+                    
+                    <div class="summary-card">
+                        <div class="summary-label">Current Streak</div>
+                        <div class="summary-value" id="streakCount">0 <span class="streak-emoji">🔥</span></div>
+                    </div>
+                    
+                    <div class="summary-card">
+                        <div class="summary-label">Weekly Consistency</div>
+                        <div class="summary-value" id="weeklyConsistency">0%</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Celebration Animation (hidden by default) -->
+            <div id="celebrationAnimation" class="celebration-container" style="display: none;">
+                <div class="celebration-message">
+                    <span class="celebration-emoji">🎉</span>
+                    <p>Amazing! All habits completed today!</p>
+                    <span class="celebration-emoji">✨</span>
+                </div>
+            </div>
+
+            <!-- Habits Container -->
+            <section class="habits-section" id="habitsSection">
+                <!-- Habit tracking cards will be inserted here -->
+            </section>
+
+            <!-- Weekly Overview -->
+            <section class="weekly-section">
+                <h3>This Week</h3>
+                <div class="weekly-grid" id="weeklyGrid">
+                    <!-- Weekly progress will be inserted here -->
+                </div>
+            </section>
+
+            <!-- Achievements Section -->
+            <section class="achievements-section">
+                <h3>Achievements</h3>
+                <div class="achievements-grid" id="achievementsContainer">
+                    <!-- Achievements will be inserted here -->
+                </div>
+            </section>
+
+            <!-- Settings Button -->
+            <div class="settings-container">
+                <button id="settingsButton" class="btn btn-secondary" aria-label="Open Settings">
+                    ⚙️ Settings
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Settings</h2>
+                <button id="closeSettingsButton" class="modal-close" aria-label="Close Settings">×</button>
+            </div>
+
+            <div class="modal-body">
+                <div class="settings-section">
+                    <h4>Manage Habits</h4>
+                    <p class="settings-description">Add or remove habits from your tracker.</p>
+                    <button id="editHabitsButton" class="btn btn-secondary">
+                        Edit My Habits
+                    </button>
+                </div>
+
+                <div class="settings-section">
+                    <h4>Dinner Cutoff Time</h4>
+                    <p class="settings-description">Set your preferred early dinner time.</p>
+                    <input type="time" id="dinnerTimeInput" class="time-input">
+                </div>
+
+                <div class="settings-section">
+                    <h4>Reset Today</h4>
+                    <p class="settings-description">Clear today's progress and start fresh.</p>
+                    <button id="resetTodayButton" class="btn btn-warning">
+                        Reset Today's Progress
+                    </button>
+                </div>
+
+                <div class="settings-section danger-zone">
+                    <h4>Danger Zone</h4>
+                    <p class="settings-description">This action cannot be undone.</p>
+                    <button id="resetAllButton" class="btn btn-danger">
+                        Reset All Data
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="modal" style="display: none;">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h2 id="confirmTitle">Confirm Action</h2>
+                <button class="modal-close modal-cancel" aria-label="Cancel">×</button>
+            </div>
+            <div class="modal-body">
+                <p id="confirmMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary modal-cancel">Cancel</button>
+                <button id="confirmButton" class="btn btn-danger">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Timer Modal (for meditation) -->
+    <div id="timerModal" class="modal" style="display: none;">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h2>Meditation Timer</h2>
+                <button id="closeTimerButton" class="modal-close" aria-label="Close Timer">×</button>
+            </div>
+            <div class="modal-body timer-body">
+                <div class="timer-display" id="timerDisplay">7:00</div>
+                <div class="timer-controls">
+                    <button id="timerStartButton" class="btn btn-primary">Start</button>
+                    <button id="timerPauseButton" class="btn btn-secondary" style="display: none;">Pause</button>
+                    <button id="timerResetButton" class="btn btn-secondary">Reset</button>
+                </div>
+                <button id="timerCompleteButton" class="btn btn-success" style="display: none;">Mark Complete</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
